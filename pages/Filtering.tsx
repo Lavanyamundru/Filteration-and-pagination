@@ -326,6 +326,10 @@ export default function App() {
     setSearchTerm("");
     setFilterCompleted("");
     setCurrentPage(1);
+    SetAtoZ(false);
+    SetZtoA(false);
+    SetAsc(false);
+    SetDsc(false);
   };
 
   return (
@@ -404,7 +408,7 @@ export default function App() {
         </Buttonreset>
       </div>
 
-      {todosData?.length!==0 &&
+      {todosData?.length !== 0 &&
         todosData.map((todo) => {
           return (
             <Div key={todo?.id}>
@@ -419,10 +423,8 @@ export default function App() {
                 <Span>{`Completed: ${todo?.completed.toString()}`}</Span>
                 {/* <Span>{`date: ${todo?.date?.toString()}`}</Span> */}
                 <Span>{moment(todo?.date).format("MMM Do YY")}</Span>
-
               </div>
             </Div>
-            
           );
         })}
       <Nav>

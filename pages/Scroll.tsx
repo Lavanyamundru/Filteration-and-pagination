@@ -181,6 +181,7 @@ const Content = () => {
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  
   const todosPerPage = 5;
   useEffect(() => {
     setPosts(computedtodos.slice(0, 5));

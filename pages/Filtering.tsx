@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
+import moment from "moment";
 const Input = styled.input`
   width: 400px;
   height: 30px;
@@ -85,9 +86,6 @@ const Spanid = styled.span`
   font-size: 13px;
   height: -300px;
 `;
-
-
-
 
 const computedtodos = [
   {
@@ -248,8 +246,8 @@ export default function App() {
   const [isZtoA, SetZtoA] = useState(false);
   const [Asc, SetAsc] = useState(false);
   const [Dsc, SetDsc] = useState(false);
-const [filterCompleted, setFilterCompleted] = useState("");
-const [currentPage, setCurrentPage] = useState(1);
+  const [filterCompleted, setFilterCompleted] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalTodos, setTotalTodos] = useState(0);
   const todosPerPage = 5;
 
@@ -331,15 +329,12 @@ const [currentPage, setCurrentPage] = useState(1);
   };
 
   return (
-    <div className="container">
+    <div>
       <H3>Filters</H3>
-      <div className="mb-3">
-        <Label htmlFor="search" className="form-label">
-          Search
-        </Label>
+      <div>
+        <Label>Search</Label>
         <Input
           type="text"
-          className="form-control"
           id="search"
           placeholder="Search Title"
           value={searchTerm}
@@ -349,12 +344,9 @@ const [currentPage, setCurrentPage] = useState(1);
           }}
         />
       </div>
-      <div className="mb-3">
-        <Label htmlFor="search" className="form-label">
-          Completed
-        </Label>
+      <div>
+        <Label>Completed</Label>
         <Select
-          className="form-select"
           value={filterCompleted}
           onChange={(e) => {
             setFilterCompleted(e.target.value);
@@ -366,7 +358,7 @@ const [currentPage, setCurrentPage] = useState(1);
           <option value="false">false</option>
         </Select>
       </div>
-      <div className="mb-3">
+      <div>
         <Button
           type="button"
           onClick={() => {
@@ -412,33 +404,35 @@ const [currentPage, setCurrentPage] = useState(1);
         </Buttonreset>
       </div>
 
-  {todosData.map((todo) => {
-        return (
-          <Div key={todo.id} >
-            <H5 >
-              <div >
-                <Spanid className="id">{`#${todo.id}`}</Spanid>
+      {todosData?.length!==0 &&
+        todosData.map((todo) => {
+          return (
+            <Div key={todo?.id}>
+              <H5>
+                <div>
+                  <Spanid>{`#${todo?.id}`}</Spanid>
+                </div>
+              </H5>
+
+              <div>
+                <Span>{`Title: ${todo?.Title}`}</Span>
+                <Span>{`Completed: ${todo?.completed.toString()}`}</Span>
+                {/* <Span>{`date: ${todo?.date?.toString()}`}</Span> */}
+                <Span>{moment(todo?.date).format("MMM Do YY")}</Span>
+
               </div>
-            </H5>
+            </Div>
             
-                <div >
-                  <Span>{`Title: ${todo.Title}`}</Span>
-                  <Span>{`Completed: ${todo.completed}`}</Span>
-                  <Span>{`date: ${todo.date.toLocaleDateString()}`}</Span>
-               
-            </div>
-          </Div>
-        );
-      })}
-        <Nav>
-        <Ul className="pagination">
-          {pageNumbers.map((number) => (
-            <Li key={number} >
-              <button onClick={() => paginate(number)} className="page-link">
-                {number}
-              </button>
-            </Li>
-          ))}
+          );
+        })}
+      <Nav>
+        <Ul>
+          {!!pageNumbers &&
+            pageNumbers.map((number) => (
+              <Li key={number}>
+                <button onClick={() => paginate(number)}>{number}</button>
+              </Li>
+            ))}
         </Ul>
       </Nav>
     </div>

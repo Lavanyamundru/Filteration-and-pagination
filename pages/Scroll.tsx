@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useMemo} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 const Div = styled.div`
@@ -9,8 +9,29 @@ const Div = styled.div`
   width: 50%;
   box-sizing: border-box;
   position: relative;
-  height: 100px;
+  height: 1000px;
   overflow-y: scroll;
+`;
+const Buttonreset = styled.button`
+  margin-left: 30px;
+  background-color: #808080;
+  margin-top: 20px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: white;
+  font-style: normal;
+  font-size: 13px;
+  width: 100px;
+  height: 25px;
+`;
+const Label = styled.label`
+  margin-left: 30px;
+  font-size: 13px;
+`;
+const Input = styled.input`
+  width: 400px;
+  height: 30px;
+  margin-left: 35px;
 `;
 
 const computedtodos = [
@@ -158,21 +179,56 @@ const computedtodos = [
 const Content = () => {
   const [posts, setPosts] = useState<any>([]);
   const [hasMore, setHasMore] = useState(true);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 5;
   useEffect(() => {
     setPosts(computedtodos.slice(0, 5));
   }, []);
-
-  const getMorePost = async () => {
+const getMorePost = async () => {
     if (posts.length == computedtodos.length) {
       setHasMore(false);
     }
     let slicedData = computedtodos.slice(posts.length, posts.length + 5);
     setPosts((post: any) => [...post, ...slicedData]);
   };
-
-  return (
+  const resetFilter = () => {
+    setSearchTerm("");
+    
+    setCurrentPage(1);
+  };
+  
+    
+return (
     <>
+    <div className="mb-3">
+        <Label htmlFor="search" className="form-label">
+          Search
+        </Label>
+        <Input
+          type="text"
+          className="form-control"
+          id="search"
+          placeholder="Search Title"
+          value={searchTerm}
+          onChange={(e) => {
+          setSearchTerm(e.target.value);
+            setCurrentPage(1);
+            getMorePost();
+
+          }}
+        />
+        <Buttonreset
+          type="button"
+          className="btn btn-danger btn-sm"
+          onClick={resetFilter}
+        >
+          Reset Filters
+        </Buttonreset>
+      </div>
+
+     
+    
       <Div>
         <InfiniteScroll
           dataLength={posts.length}
@@ -181,7 +237,13 @@ const Content = () => {
           loader={<h3> Loading...</h3>}
           endMessage={<h4>Nothing more to show</h4>}
         >
-          {posts.map((data: any) => (
+        
+          {posts. filter((data:any) => {
+              if (data.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+              }
+            }).map((data: any) => (
+
             <div key={data.id}>
               <div className="back">
                 <strong> {data.id}</strong> {data.title}

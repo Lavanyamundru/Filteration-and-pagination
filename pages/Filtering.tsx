@@ -248,10 +248,8 @@ export default function App() {
   const [isZtoA, SetZtoA] = useState(false);
   const [Asc, SetAsc] = useState(false);
   const [Dsc, SetDsc] = useState(false);
-
-  const [filterCompleted, setFilterCompleted] = useState("");
-
-  const [currentPage, setCurrentPage] = useState(1);
+const [filterCompleted, setFilterCompleted] = useState("");
+const [currentPage, setCurrentPage] = useState(1);
   const [totalTodos, setTotalTodos] = useState(0);
   const todosPerPage = 5;
 

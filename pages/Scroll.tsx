@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useMemo} from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 const Div = styled.div`
@@ -181,12 +181,12 @@ const Content = () => {
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const todosPerPage = 5;
   useEffect(() => {
     setPosts(computedtodos.slice(0, 5));
   }, []);
-const getMorePost = async () => {
+  const getMorePost = async () => {
     if (posts.length == computedtodos.length) {
       setHasMore(false);
     }
@@ -195,14 +195,12 @@ const getMorePost = async () => {
   };
   const resetFilter = () => {
     setSearchTerm("");
-    
     setCurrentPage(1);
   };
-  
-    
-return (
+
+  return (
     <>
-    <div className="mb-3">
+      <div className="mb-3">
         <Label htmlFor="search" className="form-label">
           Search
         </Label>
@@ -213,10 +211,9 @@ return (
           placeholder="Search Title"
           value={searchTerm}
           onChange={(e) => {
-          setSearchTerm(e.target.value);
+            setSearchTerm(e.target.value);
             setCurrentPage(1);
             getMorePost();
-
           }}
         />
         <Buttonreset
@@ -228,8 +225,6 @@ return (
         </Buttonreset>
       </div>
 
-     
-    
       <Div>
         <InfiniteScroll
           dataLength={posts.length}
@@ -238,20 +233,20 @@ return (
           loader={<h3> Loading...</h3>}
           endMessage={<h4>Nothing more to show</h4>}
         >
-        
-          {posts. filter((data:any) => {
+          {posts
+            .filter((data: any) => {
               if (data.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return data
+                return data;
               }
-            }).map((data: any) => (
-
-            <div key={data.id}>
-              <div className="back">
-                <strong> {data.id}</strong> {data.title}
+            })
+            .map((data: any) => (
+              <div key={data.id}>
+                <div className="back">
+                  <strong> {data.id}</strong> {data.title}
+                </div>
+                {data.completed}
               </div>
-              {data.completed}
-            </div>
-          ))}
+            ))}
         </InfiniteScroll>
       </Div>
       <style jsx>
@@ -270,4 +265,3 @@ return (
 };
 
 export default Content;
-

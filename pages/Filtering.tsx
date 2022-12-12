@@ -357,7 +357,7 @@ export default function App() {
             setCurrentPage(1);
           }}
         >
-          <option defaultValue=""></option>
+          <option>select</option>
           <option value="true">true</option>
           <option value="false">false</option>
         </Select>
